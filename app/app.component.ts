@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { Task } from './task.model';
 
 @Component({
   selector: 'app-root',
@@ -6,9 +7,9 @@ import { Component } from '@angular/core';
   <div class="container">
     <h1>To Do List for {{month}}/{{day}}/{{year}}</h1>
     <h3>{{currentFocus}}</h3>
-    <ul>
-      <li [class]="priorityColor(currentTask)" (click)="isDone(currentTask)" *ngFor="let currentTask of tasks">{{currentTask.description}}<button (click)="editTask(currentTask)">Edit</button></li>
-    </ul>
+
+    <task-list></task-list>
+
     <hr>
        <div>
         <div *ngIf="selectedTask">
@@ -35,41 +36,14 @@ export class AppComponent {
   month: number = this.currentTime.getMonth() + 1;
   day: number = this.currentTime.getDate();
   year: number = this.currentTime.getFullYear();
-  tasks: Task[] =[
-    new Task("Finish weekend Angular homework for Epicodus course", 3),
-    new Task('Begin brainstorming possible JavaScript group projects', 2),
-    new Task('Add README file to last few Angular repos on GitHub', 2)
-  ];
-selectedTask = null;
+  selectedTask = null;
 
-    editTask(clickedTask) {
-      this.selectedTask = clickedTask;
-  }
-
-  isDone(clickedTask: Task) {
-    if(clickedTask.done === true) {
-      alert("this task is done!");
-    } else {
-      alert("This task is not done. Better get to work slob!");
-    }
-  }
-
-  priorityColor(currentTask){
-    if (currentTask.priority === 3) {
-      return "bg-danger";
-    } else if (currentTask.priority === 2) {
-      return "bg-warning";
-    } else {
-      return "bg-info";
-    }
+  editTask(clickedTask) {
+    this.selectedTask = clickedTask;
   }
 
   finishedEditing() {
    this.selectedTask = null;
- }
-}
+  }
 
-export class Task {
-  public done: boolean = false;
-  constructor(public description: string, public priority: number) { }
 }
